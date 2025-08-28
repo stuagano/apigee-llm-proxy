@@ -1,0 +1,102 @@
+# Enterprise LLM Proxy - Configuration Example
+# Copy this file to terraform.tfvars and customize for your environment
+
+# ============== PROJECT CONFIGURATION ==============
+project_id  = "your-company-llm-proxy"
+region      = "us-central1"
+environment = "prod"
+domain      = "company.com"  # Your domain for SSL certificate
+
+# ============== AUTHENTICATION CONFIGURATION ==============
+
+# SSO Provider (choose one: google, okta, azure_ad)
+sso_provider  = "google"
+sso_client_id = "your-google-client-id.apps.googleusercontent.com"
+
+# For Okta or Azure AD (leave empty for Google)
+sso_tenant = ""  # e.g., "your-company.okta.com" or "your-tenant-id"
+
+# ============== LLM PROVIDER CREDENTIALS ==============
+
+# Azure OpenAI
+azure_openai_endpoint = "https://your-resource.openai.azure.com/"
+azure_openai_key      = "your-azure-openai-api-key"
+
+# AWS Bedrock
+aws_access_key = "your-aws-access-key"
+aws_secret_key = "your-aws-secret-key"
+
+# Note: Google Vertex AI uses the service account automatically
+
+# ============== NOTIFICATION CHANNELS (OPTIONAL) ==============
+# Get channel IDs from: gcloud alpha monitoring channels list
+
+notification_channels = [
+  # "projects/your-project/notificationChannels/1234567890123456789",  # Email
+  # "projects/your-project/notificationChannels/9876543210987654321"   # Slack
+]
+
+# ============== EXAMPLE CONFIGURATIONS BY ENVIRONMENT ==============
+
+# Development Environment
+# project_id  = "llm-proxy-dev"
+# region      = "us-central1" 
+# environment = "dev"
+# domain      = "dev.company.com"
+
+# Staging Environment  
+# project_id  = "llm-proxy-staging"
+# region      = "us-east1"
+# environment = "staging"
+# domain      = "staging.company.com"
+
+# Production Environment
+# project_id  = "llm-proxy-prod"
+# region      = "us-central1"
+# environment = "prod" 
+# domain      = "company.com"
+
+# ============== MULTI-REGION SETUP (ADVANCED) ==============
+# For global deployment, deploy to multiple regions:
+
+# Primary: us-central1 (Iowa)
+# Secondary: europe-west1 (Belgium)  
+# Tertiary: asia-northeast1 (Tokyo)
+
+# ============== COST OPTIMIZATION SETTINGS ==============
+# Adjust these based on your expected usage:
+
+# For low usage (< 100K requests/month):
+# - Use BASIC Redis tier
+# - Set min_instances = 0 (scale to zero)
+# - Use smaller machine types
+
+# For high usage (> 10M requests/month):
+# - Use STANDARD_HA Redis tier
+# - Set min_instances = 5
+# - Use larger machine types
+# - Enable multiple regions
+
+# ============== SECURITY SETTINGS ==============
+# Additional security configurations:
+
+# Restrict source IPs (optional)
+# allowed_source_ips = ["203.0.113.0/24", "198.51.100.0/24"]
+
+# Custom security rules (optional)
+# enable_country_blocking = true
+# blocked_countries = ["CN", "RU", "KP"]
+
+# ============== MONITORING & ALERTING ==============
+# Customize alert thresholds:
+
+# alert_latency_threshold = 5000      # milliseconds
+# alert_error_rate_threshold = 0.05   # 5%
+# alert_instance_count_threshold = 50 # instances
+
+# ============== BACKUP & DISASTER RECOVERY ==============
+# Backup configurations:
+
+# enable_backup = true
+# backup_retention_days = 30
+# cross_region_backup = true
